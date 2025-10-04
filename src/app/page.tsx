@@ -1,96 +1,146 @@
-import { Building2, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
+import {
+  CompanyEmissionsBarChart,
+  EmissionsAreaChart,
+  EmissionsLineChart,
+} from '@/components/charts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { fetchCompanies } from '@/lib/api';
-import { formatNumber, getTotalEmissions } from '@/lib/data-utils';
+import { fetchCompanies, fetchGhgEmissions, fetchPosts } from '@/lib/api';
 
 export default async function Home() {
   const companies = await fetchCompanies();
-  const totalEmissions = getTotalEmissions(companies);
-  // 최신 월 배출량 등 추가 통계 필요시 getLatestMonth/getEmissionsForMonth 활용 가능
+  const posts = await fetchPosts();
+  const emissions = await fetchGhgEmissions();
+  const totalEmissions = emissions.reduce((sum, emission) => sum + emission.emissions, 0);
+  const sourceStats = emissions.reduce(
+    (acc, emission) => {
+      acc[emission.source] = (acc[emission.source] || 0) + emission.emissions;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  const _recentPosts = posts.slice(0, 4); // 최신 4개 포스트
 
   return (
     <div className="space-y-6">
-      {/* 통계 카드 영역 */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2" aria-label="통계 카드">
-        <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card via-card to-destructive/5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-          <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 via-transparent to-destructive/5"></div>
-          <CardHeader className="relative flex flex-row items-center justify-between pb-4">
-            <CardTitle className="text-base font-bold text-foreground">총 배출량</CardTitle>
-            <div className="p-3 bg-gradient-to-br from-destructive/20 to-destructive/10 rounded-full">
-              <TrendingUp className="h-5 w-5 text-destructive" aria-label="총 배출량 아이콘" />
-            </div>
+      {/* 통계 카드 + 차트 영역 */}
+      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4" aria-label="통계 카드">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">총 배출량</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">🌍</div>
           </CardHeader>
-          <CardContent className="relative">
-            <div className="text-3xl font-bold bg-gradient-to-r from-destructive to-destructive/80 bg-clip-text text-transparent">
-              {formatNumber(totalEmissions)}
-            </div>
-            <p className="text-sm text-muted-foreground font-medium mt-1">tons CO2e</p>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalEmissions.toFixed(1)}</div>
+            <p className="text-xs text-muted-foreground">tons CO2e</p>
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-card via-card to-primary/5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5"></div>
-          <CardHeader className="relative flex flex-row items-center justify-between pb-4">
-            <CardTitle className="text-base font-bold text-foreground">등록 회사</CardTitle>
-            <div className="p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full">
-              <Building2 className="h-5 w-5 text-primary" aria-label="등록 회사 아이콘" />
-            </div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">주요 배출원</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">⛽</div>
           </CardHeader>
-          <CardContent className="relative">
-            <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              {companies.length}
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {Object.keys(sourceStats)
+                .reduce((a, b) => (sourceStats[a] > sourceStats[b] ? a : b))
+                .toUpperCase()}
             </div>
-            <p className="text-sm text-muted-foreground font-medium mt-1">companies</p>
+            <p className="text-xs text-muted-foreground">
+              {Math.max(...Object.values(sourceStats)).toFixed(1)} tons CO2e
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">등록 회사</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">🏢</div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{companies.length}</div>
+            <p className="text-xs text-muted-foreground">개 회사</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">배출원 종류</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">🔢</div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{Object.keys(sourceStats).length}</div>
+            <p className="text-xs text-muted-foreground">종류</p>
           </CardContent>
         </Card>
       </section>
 
-      {/* 회사 목록 카드 */}
-      <section aria-label="회사 목록">
-        <Card className="border-0 bg-gradient-to-br from-card via-card/95 to-muted/20 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-muted/50 via-transparent to-muted/30 border-b border-border/50">
-            <CardTitle className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              회사 목록
-            </CardTitle>
-            <CardDescription className="text-muted-foreground font-medium">
-              등록된 상위 5개 회사의 배출 데이터
-            </CardDescription>
+      {/* 차트 영역 */}
+      <section className="grid gap-6 lg:grid-cols-2" aria-label="배출 데이터 차트">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>배출량 추이</CardTitle>
+            <CardDescription>월별 배출원별 배출량 변화 현황</CardDescription>
           </CardHeader>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              {companies.slice(0, 5).map((company, index) => (
-                <div
-                  key={company.id}
-                  className="group flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-background via-background/95 to-muted/10 border border-border/50 hover:shadow-md hover:scale-[1.01] transition-all duration-200 cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                      {index + 1}
-                    </div>
-                    <div>
-                      <p className="font-bold text-foreground group-hover:text-primary transition-colors">
-                        {company.name}
-                      </p>
-                      <p className="text-sm text-muted-foreground font-medium">{company.country}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-lg font-bold text-primary">{company.emissions.length}</p>
-                    <p className="text-xs text-muted-foreground font-medium">records</p>
-                  </div>
-                </div>
-              ))}
-              {companies.length > 5 && (
-                <div className="pt-4 text-center">
-                  <p className="text-sm text-muted-foreground font-medium px-4 py-2 bg-muted/30 rounded-full inline-block">
-                    ... and {companies.length - 5} more companies
-                  </p>
-                </div>
-              )}
-            </div>
+          <CardContent>
+            <EmissionsLineChart data={emissions} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>배출원별 구성</CardTitle>
+            <CardDescription>시간에 따른 배출원별 기여도</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <EmissionsAreaChart data={emissions} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>회사별 배출량</CardTitle>
+            <CardDescription>회사별 배출원별 배출량 비교</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CompanyEmissionsBarChart companies={companies} />
           </CardContent>
         </Card>
       </section>
+
+      {/* 회사 통계 카드 */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="회사/포스트 통계">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">등록 회사</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">🏢</div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{companies.length}</div>
+            <p className="text-xs text-muted-foreground">전체 회사 수</p>
+            <Link href="/companies" className="text-xs text-primary underline mt-2 inline-block">
+              상세보기
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">등록 포스트</CardTitle>
+            <div className="h-4 w-4 text-muted-foreground">📝</div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{posts.length}</div>
+            <p className="text-xs text-muted-foreground">전체 포스트 수</p>
+            <Link href="/posts" className="text-xs text-primary underline mt-2 inline-block">
+              상세보기
+            </Link>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 최근 포스트/회사 목록은 통계 카드에서 상세페이지 링크로 대체됨 */}
     </div>
   );
 }

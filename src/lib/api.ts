@@ -2,12 +2,14 @@ import type {
   Company,
   Country,
   CreatePostInput,
+  GhgEmission,
   Post,
   PostFilters,
   UpdatePostInput,
 } from '@/types';
 import { companies as seedCompanies } from './seed-data/companies';
 import { countries as seedCountries } from './seed-data/countries';
+import { ghgEmissions as seedGhgEmissions } from './seed-data/ghg-emissions';
 import { posts as seedPosts } from './seed-data/posts';
 
 // 유틸리티 함수
@@ -30,6 +32,7 @@ export class ApiError extends Error {
 let _countries: Country[] = [...seedCountries];
 let _companies: Company[] = [...seedCompanies];
 let _posts: Post[] = [...seedPosts];
+const _ghgEmissions: GhgEmission[] = [...seedGhgEmissions];
 
 // === 읽기 API ===
 
@@ -47,6 +50,14 @@ export async function fetchCountries(): Promise<Country[]> {
 export async function fetchCompanies(): Promise<Company[]> {
   await delay(jitter());
   return [..._companies];
+}
+
+/**
+ * GHG 배출량 데이터 조회
+ */
+export async function fetchGhgEmissions(): Promise<GhgEmission[]> {
+  await delay(jitter());
+  return [..._ghgEmissions];
 }
 
 /**
