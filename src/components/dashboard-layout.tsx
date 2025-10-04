@@ -71,7 +71,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <Button
               type="button"
               onClick={toggleSidebar}
-              className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-primary/10 cursor-pointer group outline-none ring-0"
+              className="w-8 h-8 flex items-center justify-center rounded-md group hover:bg-primary/10 transition-all"
+              variant={'ghost'}
               aria-label={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
               aria-pressed={!!isCollapsed}
             >
