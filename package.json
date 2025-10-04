@@ -12,11 +12,14 @@
     "lint:md": "markdownlint '**/*.md' --fix",
     "lint:md:check": "markdownlint '**/*.md'",
     "format": "biome format --write .",
-    "format:check": "biome format ."
+    "format:check": "biome format .",
+    "build:check": "tsc --noEmit"
   },
   "packageManager": "pnpm@10.17.1",
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-form": "^1.23.5",
+    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.544.0",

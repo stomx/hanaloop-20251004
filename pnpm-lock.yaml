@@ -11,6 +11,12 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@18.3.25)(react@18.3.1)
+      '@tanstack/react-form':
+        specifier: ^1.23.5
+        version: 1.23.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tanstack/react-table':
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -424,6 +430,42 @@ packages:
   '@tailwindcss/postcss@4.1.14':
     resolution: {integrity: sha512-BdMjIxy7HUNThK87C7BC8I1rE8BVUsfNQSI5siQ4JK3iIa3w0XyVvVL9SXLWO//CtYTcp1v7zci0fYwJOjB+Zg==}
 
+  '@tanstack/devtools-event-client@0.3.2':
+    resolution: {integrity: sha512-gkvph/YMCFUfAca75EsJBJnhbKitDGix7vdEcT/3lAV+eyGSv+uECYG43apVQN4yLJKnV6mzcNvGzOhDhb72gg==}
+    engines: {node: '>=18'}
+
+  '@tanstack/form-core@1.24.1':
+    resolution: {integrity: sha512-nI9Ad5JFHQjADkUQQtl7ajb7Lsd4sQlR0b5BmKDpJfZSPH/BF7+uUC3m91dM1bucOqIDzTTXr0QROZODnY+www==}
+
+  '@tanstack/react-form@1.23.5':
+    resolution: {integrity: sha512-WygrvTK7Fn3RmSBG5V3FIzH2Z+3FDbau7kaqa/opLiGsX2sx98ZAPvF5umXCe3fmppfJe+nBFYuqY+gaUrSf7w==}
+    peerDependencies:
+      '@tanstack/react-start': ^1.130.10
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@tanstack/react-start':
+        optional: true
+
+  '@tanstack/react-store@0.7.7':
+    resolution: {integrity: sha512-qqT0ufegFRDGSof9D/VqaZgjNgp4tRPHZIJq2+QIHkMUtHjaJ0lYrrXjeIUJvjnTbgPfSD1XgOMEt0lmANn6Zg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@tanstack/react-table@8.21.3':
+    resolution: {integrity: sha512-5nNMTSETP4ykGegmVkhjcS8tTLW6Vl4axfEGQN3v0zdHYbK4UfoqfPChclTrJ4EoK9QynqAu9oUf8VEmrpZ5Ww==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  '@tanstack/store@0.7.7':
+    resolution: {integrity: sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==}
+
+  '@tanstack/table-core@8.21.3':
+    resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
+    engines: {node: '>=12'}
+
   '@types/conventional-commits-parser@5.0.1':
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
 
@@ -669,6 +711,9 @@ packages:
   decimal.js-light@2.5.1:
     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
 
+  decode-formdata@0.9.0:
+    resolution: {integrity: sha512-q5uwOjR3Um5YD+ZWPOF/1sGHVW9A5rCrRwITQChRXlmPkxDFBqCm4jNTIVdGHNH9OnR+V9MoZVgRhsFb+ARbUw==}
+
   decode-named-character-reference@1.2.0:
     resolution: {integrity: sha512-c6fcElNV6ShtZXmsgNgFFV5tVX2PaV4g+MOAkb8eXHvn6sryJBrZa9r0zV6+dtTyoCKxtDy5tyQ5ZwQuidtd+Q==}
 
@@ -683,6 +728,9 @@ packages:
   detect-libc@2.1.1:
     resolution: {integrity: sha512-ecqj/sy1jcK1uWrwpR67UhYrIFQ+5WlGxth34WquCbamhFA6hkkwiu37o6J5xCHdo1oixJRfVRw+ywV+Hq/0Aw==}
     engines: {node: '>=8'}
+
+  devalue@5.3.2:
+    resolution: {integrity: sha512-UDsjUbpQn9kvm68slnrs+mfxwFkIflOhkanmyabZ8zOYk8SMEIbJ3TK+88g70hSIeytu4y18f0z/hYHMTrXIWw==}
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
@@ -1758,6 +1806,40 @@ snapshots:
       postcss: 8.5.6
       tailwindcss: 4.1.14
 
+  '@tanstack/devtools-event-client@0.3.2': {}
+
+  '@tanstack/form-core@1.24.1':
+    dependencies:
+      '@tanstack/devtools-event-client': 0.3.2
+      '@tanstack/store': 0.7.7
+
+  '@tanstack/react-form@1.23.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/form-core': 1.24.1
+      '@tanstack/react-store': 0.7.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      decode-formdata: 0.9.0
+      devalue: 5.3.2
+      react: 18.3.1
+    transitivePeerDependencies:
+      - react-dom
+
+  '@tanstack/react-store@0.7.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/store': 0.7.7
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      use-sync-external-store: 1.6.0(react@18.3.1)
+
+  '@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/table-core': 8.21.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@tanstack/store@0.7.7': {}
+
+  '@tanstack/table-core@8.21.3': {}
+
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
       '@types/node': 24.6.2
@@ -1971,6 +2053,8 @@ snapshots:
 
   decimal.js-light@2.5.1: {}
 
+  decode-formdata@0.9.0: {}
+
   decode-named-character-reference@1.2.0:
     dependencies:
       character-entities: 2.0.2
@@ -1980,6 +2064,8 @@ snapshots:
   dequal@2.0.3: {}
 
   detect-libc@2.1.1: {}
+
+  devalue@5.3.2: {}
 
   devlop@1.1.0:
     dependencies:
