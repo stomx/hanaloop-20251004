@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PostForm from '@/components/posts/PostForm';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/toast';
 import { fetchPostById, updatePost } from '@/lib/api';
 import type { CreatePostInput, Post } from '@/types';
 
@@ -24,7 +26,7 @@ export default function EditPostPage() {
           e && typeof e === 'object' && 'message' in e
             ? String((e as { message?: unknown }).message)
             : '포스트를 불러오는 중 오류 발생';
-        alert(errorMsg);
+        toast.error({ title: '불러오기 실패', description: errorMsg });
       })
       .finally(() => setFetching(false));
   }, [id]);
@@ -40,7 +42,7 @@ export default function EditPostPage() {
         e && typeof e === 'object' && 'message' in e
           ? String((e as { message?: unknown }).message)
           : '수정 중 오류 발생';
-      alert(errorMsg);
+      toast.error({ title: '수정 실패', description: errorMsg });
       setLoading(false);
     }
   }
@@ -68,12 +70,13 @@ export default function EditPostPage() {
     <main className="p-6 max-w-xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">포스트 수정</h1>
-        <Link
-          href={`/posts/${id}`}
-          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring"
+        <Button
+          type="button"
+          onClick={() => router.push(`/posts/${params.id}`)}
+          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 transition-all"
         >
           취소
-        </Link>
+        </Button>
       </div>
       <PostForm initial={post} onSubmit={handleSubmit} loading={loading} />
     </main>

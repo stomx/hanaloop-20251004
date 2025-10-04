@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PostFormModal from '@/components/posts/PostFormModal';
+import { toast } from '@/components/ui/toast';
 import { deletePost } from '@/lib/api';
 import type { Post } from '@/types';
+import { Button } from '../ui/button';
 
 export default function PostDetail({ post }: { post: Post }) {
   const router = useRouter();
@@ -23,14 +25,14 @@ export default function PostDetail({ post }: { post: Post }) {
     setDeleting(true);
     try {
       await deletePost(post.id);
-      alert('포스트가 삭제되었습니다.');
+      toast.success({ title: '삭제되었습니다.' });
       router.push('/posts');
     } catch (e) {
       const errorMsg =
         e && typeof e === 'object' && 'message' in e
           ? String((e as { message?: unknown }).message)
           : '삭제 중 오류 발생';
-      alert(errorMsg);
+      toast.error({ title: '삭제 실패', description: errorMsg });
       setDeleting(false);
     }
   };
@@ -46,28 +48,28 @@ export default function PostDetail({ post }: { post: Post }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <button
+            <Button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring"
+              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 transition-all"
             >
               편집
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={handleDelete}
               disabled={deleting}
-              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring disabled:opacity-50"
+              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 focus-visible:ring-offset-2 disabled:opacity-50 transition-all"
             >
               {deleting ? '삭제 중...' : '삭제'}
-            </button>
+            </Button>
           </div>
         </div>
         <div className="prose max-w-none mb-4">{post.content || '내용 없음'}</div>
         <div className="mt-6">
           <Link
             href="/posts"
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring"
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 transition-all inline-block"
           >
             목록으로 돌아가기
           </Link>

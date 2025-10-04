@@ -137,10 +137,28 @@
     @apply bg-background text-foreground font-sans;
   }
 
-  /* Enhanced focus styles for accessibility */
-  *:focus {
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
+  /* Enhanced focus styles for accessibility - Border-based instead of outline */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    border-color: var(--color-ring);
+    border-width: 2px;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+  }
+
+  input:focus-visible[aria-invalid="true"],
+  textarea:focus-visible[aria-invalid="true"],
+  select:focus-visible[aria-invalid="true"] {
+    border-color: var(--color-destructive);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-ring);
   }
 
   /* High contrast mode support */

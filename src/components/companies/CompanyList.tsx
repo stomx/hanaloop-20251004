@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
 import type { Company, GhgEmission } from '@/types';
+import { Button } from '../ui/button';
 
 interface CompanyListProps {
   companies: Company[];
@@ -73,14 +74,14 @@ export function CompanyList({ companies }: CompanyListProps) {
           const company = info.row.original;
           const isExpanded = expandedRows.has(company.id);
           return (
-            <button
+            <Button
               type="button"
               onClick={() => toggleExpanded(company.id)}
-              className="text-lg cursor-pointer hover:text-blue-600 focus:outline-none focus:ring"
+              className="text-lg cursor-pointer hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded transition-all"
               aria-label={isExpanded ? '접기' : '펼치기'}
             >
               {isExpanded ? '▼' : '▶'}
-            </button>
+            </Button>
           );
         },
       },
@@ -160,93 +161,91 @@ export function CompanyList({ companies }: CompanyListProps) {
                 </td>
               </tr>
             ) : (
-              <>
-                {table.getRowModel().rows.map((row) => {
-                  const company = row.original;
-                  const isExpanded = expandedRows.has(company.id);
-                  return (
-                    <>
-                      <tr key={row.id} className="border-b hover:bg-gray-50">
-                        {row.getVisibleCells().map((cell) => (
-                          <td key={cell.id} className="px-2 py-1">
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </td>
-                        ))}
-                      </tr>
-                      {isExpanded && (
-                        <tr key={`${row.id}-expanded`}>
-                          <td colSpan={columns.length} className="px-4 py-4 bg-gray-50">
-                            <div className="space-y-3">
-                              <h4 className="font-semibold text-sm">배출량 상세 내역</h4>
-                              <div className="overflow-x-auto">
-                                <table className="min-w-full text-xs border">
-                                  <thead className="bg-gray-200">
-                                    <tr>
-                                      <th className="px-2 py-1 text-left font-medium border-r">
-                                        연월
-                                      </th>
-                                      <th className="px-2 py-1 text-left font-medium border-r">
-                                        배출원
-                                      </th>
-                                      <th className="px-2 py-1 text-right font-medium">
-                                        배출량 (tCO₂e)
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {groupByYearMonth(company.emissions).map((group) => (
-                                      <>
-                                        {Array.from(group.sources.entries()).map(
-                                          ([source, amount], idx) => (
-                                            <tr
-                                              key={`${group.yearMonth}-${source}`}
-                                              className="border-b hover:bg-gray-100"
-                                            >
-                                              {idx === 0 && (
-                                                <td
-                                                  className="px-2 py-1 font-medium border-r bg-gray-50"
-                                                  rowSpan={group.sources.size}
-                                                >
-                                                  {group.yearMonth}
-                                                </td>
-                                              )}
-                                              <td className="px-2 py-1 text-gray-600 border-r">
-                                                {source}
+              table.getRowModel().rows.map((row) => {
+                const company = row.original;
+                const isExpanded = expandedRows.has(company.id);
+                return (
+                  <>
+                    <tr key={row.id} className="border-b hover:bg-gray-50">
+                      {row.getVisibleCells().map((cell) => (
+                        <td key={cell.id} className="px-2 py-1">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      ))}
+                    </tr>
+                    {isExpanded && (
+                      <tr key={`${row.id}-expanded`}>
+                        <td colSpan={columns.length} className="px-4 py-4 bg-gray-50">
+                          <div className="space-y-3">
+                            <h4 className="font-semibold text-sm">배출량 상세 내역</h4>
+                            <div className="overflow-x-auto">
+                              <table className="min-w-full text-xs border">
+                                <thead className="bg-gray-200">
+                                  <tr>
+                                    <th className="px-2 py-1 text-left font-medium border-r">
+                                      연월
+                                    </th>
+                                    <th className="px-2 py-1 text-left font-medium border-r">
+                                      배출원
+                                    </th>
+                                    <th className="px-2 py-1 text-right font-medium">
+                                      배출량 (tCO₂e)
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {groupByYearMonth(company.emissions).map((group) => (
+                                    <>
+                                      {Array.from(group.sources.entries()).map(
+                                        ([source, amount], idx) => (
+                                          <tr
+                                            key={`${group.yearMonth}-${source}`}
+                                            className="border-b hover:bg-gray-100"
+                                          >
+                                            {idx === 0 && (
+                                              <td
+                                                className="px-2 py-1 font-medium border-r bg-gray-50"
+                                                rowSpan={group.sources.size}
+                                              >
+                                                {group.yearMonth}
                                               </td>
-                                              <td className="px-2 py-1 text-right font-mono">
-                                                {formatNumber(amount)}
-                                              </td>
-                                            </tr>
-                                          )
-                                        )}
-                                        <tr className="bg-blue-50 font-semibold">
-                                          <td className="px-2 py-1 text-right border-r" colSpan={2}>
-                                            {group.yearMonth} 소계
-                                          </td>
-                                          <td className="px-2 py-1 text-right font-mono">
-                                            {formatNumber(group.total)}
-                                          </td>
-                                        </tr>
-                                      </>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
+                                            )}
+                                            <td className="px-2 py-1 text-gray-600 border-r">
+                                              {source}
+                                            </td>
+                                            <td className="px-2 py-1 text-right font-mono">
+                                              {formatNumber(amount)}
+                                            </td>
+                                          </tr>
+                                        )
+                                      )}
+                                      <tr className="bg-blue-50 font-semibold">
+                                        <td className="px-2 py-1 text-right border-r" colSpan={2}>
+                                          {group.yearMonth} 소계
+                                        </td>
+                                        <td className="px-2 py-1 text-right font-mono">
+                                          {formatNumber(group.total)}
+                                        </td>
+                                      </tr>
+                                    </>
+                                  ))}
+                                </tbody>
+                              </table>
                             </div>
-                          </td>
-                        </tr>
-                      )}
-                    </>
-                  );
-                })}
-              </>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                );
+              })
             )}
           </tbody>
         </table>
       </div>
 
       <div className="flex justify-center items-center gap-2 mt-4">
-        <button
+        <Button
           type="button"
           className="px-2 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
           onClick={() => setPage((p) => Math.max(0, p - 1))}
@@ -254,11 +253,11 @@ export function CompanyList({ companies }: CompanyListProps) {
           aria-label="이전 페이지"
         >
           이전
-        </button>
+        </Button>
         <span className="text-sm">
           {page + 1} / {pageCount || 1}
         </span>
-        <button
+        <Button
           type="button"
           className="px-2 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
           onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
@@ -266,7 +265,7 @@ export function CompanyList({ companies }: CompanyListProps) {
           aria-label="다음 페이지"
         >
           다음
-        </button>
+        </Button>
       </div>
     </section>
   );

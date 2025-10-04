@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { toast } from '@/components/ui/toast';
 import { createPost, updatePost } from '@/lib/api';
 import type { CreatePostInput, Post } from '@/types';
 import PostForm from './PostForm';
@@ -21,6 +22,14 @@ interface PostFormModalProps {
 export default function PostFormModal({ open, onOpenChange, post, onSuccess }: PostFormModalProps) {
   const [loading, setLoading] = useState(false);
 
+  // 모달이 열릴 때마다 loading 상태 초기화
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      setLoading(false);
+    }
+    onOpenChange(newOpen);
+  };
+
   async function handleSubmit(data: CreatePostInput) {
     setLoading(true);
     try {
@@ -29,6 +38,7 @@ export default function PostFormModal({ open, onOpenChange, post, onSuccess }: P
       } else {
         await createPost(data);
       }
+      setLoading(false);
       onOpenChange(false);
       if (onSuccess) {
         onSuccess();
@@ -38,13 +48,13 @@ export default function PostFormModal({ open, onOpenChange, post, onSuccess }: P
         e && typeof e === 'object' && 'message' in e
           ? String((e as { message?: unknown }).message)
           : '저장 중 오류 발생';
-      alert(errorMsg);
+      toast.error({ title: '저장 실패', description: errorMsg });
       setLoading(false);
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{post ? '포스트 수정' : '새 포스트 작성'}</DialogTitle>

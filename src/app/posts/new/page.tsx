@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PostForm from '@/components/posts/PostForm';
+import { toast } from '@/components/ui/toast';
 import { createPost } from '@/lib/api';
 import type { CreatePostInput } from '@/types';
 
@@ -20,7 +21,7 @@ export default function NewPostPage() {
         e && typeof e === 'object' && 'message' in e
           ? String((e as { message?: unknown }).message)
           : '저장 중 오류 발생';
-      alert(errorMsg);
+      toast.error({ title: '저장 실패', description: errorMsg });
       setLoading(false);
     }
   }
@@ -31,7 +32,7 @@ export default function NewPostPage() {
         <h1 className="text-2xl font-bold">새 포스트 작성</h1>
         <Link
           href="/posts"
-          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring"
+          className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 transition-all inline-block"
         >
           취소
         </Link>

@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { useId, useState } from 'react';
 import type { Post } from '@/types';
+import { Button } from '../ui/button';
 
 interface PostFormProps {
   initial?: Partial<Post>;
@@ -63,7 +64,7 @@ export default function PostForm({ initial, onSubmit, loading }: PostFormProps) 
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="w-full border rounded px-2 py-1"
+                className="w-full border rounded px-2 py-1 transition-all duration-200"
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={`${titleId}-error`}
               />
@@ -94,7 +95,7 @@ export default function PostForm({ initial, onSubmit, loading }: PostFormProps) 
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="w-full border rounded px-2 py-1"
+                className="w-full border rounded px-2 py-1 transition-all duration-200"
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={`${resourceUidId}-error`}
               />
@@ -125,7 +126,7 @@ export default function PostForm({ initial, onSubmit, loading }: PostFormProps) 
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="w-full border rounded px-2 py-1"
+                className="w-full border rounded px-2 py-1 transition-all duration-200"
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={`${dateTimeId}-error`}
                 placeholder="2025-01"
@@ -156,7 +157,7 @@ export default function PostForm({ initial, onSubmit, loading }: PostFormProps) 
                 name="content"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className="w-full border rounded px-2 py-1"
+                className="w-full border rounded px-2 py-1 transition-all duration-200"
                 rows={4}
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={`${contentId}-error`}
@@ -171,13 +172,13 @@ export default function PostForm({ initial, onSubmit, loading }: PostFormProps) 
         </form.Field>
       </div>
       {error && <div className="text-red-600 text-sm">{error}</div>}
-      <button
+      <Button
         type="submit"
         className="px-4 py-2 bg-green-600 text-white rounded"
         disabled={loading || !form.state.canSubmit}
       >
         {loading ? '저장 중...' : '저장'}
-      </button>
+      </Button>
     </form>
   );
 }

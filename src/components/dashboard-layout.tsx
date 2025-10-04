@@ -5,10 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ToastProvider } from '@/components/ui/toast';
 import { navigation } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 
 import logo from '../../public/logo.png';
+import { Button } from './ui/button';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -66,11 +68,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
 
             {/* Single toggle button with rotating icon */}
-            <button
+            <Button
               type="button"
               onClick={toggleSidebar}
               className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-primary/10 cursor-pointer group outline-none ring-0"
               aria-label={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
+              aria-pressed={!!isCollapsed}
             >
               <ChevronLeft
                 className={cn(
@@ -78,7 +81,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   isCollapsed && 'rotate-180'
                 )}
               />
-            </button>
+            </Button>
           </div>
 
           {/* Navigation Menu */}
@@ -181,10 +184,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="p-6 bg-gradient-to-br from-background via-background/98 to-muted/20 min-h-[calc(100vh-4rem)]">
-          {children}
-        </main>
+        {/* Main Content + Toasts */}
+        <ToastProvider>
+          <main className="p-6 bg-gradient-to-br from-background via-background/98 to-muted/20 min-h-[calc(100vh-4rem)]">
+            {children}
+          </main>
+        </ToastProvider>
       </div>
     </div>
   );

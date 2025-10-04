@@ -1,4 +1,5 @@
 import type { Post } from '@/types';
+import { Button } from '../ui/button';
 
 interface PostTableRowProps {
   post: Post;
@@ -24,20 +25,20 @@ export default function PostTableRow({ post, companyName }: PostTableRowProps) {
       </td>
       <td className="px-2 py-1 flex gap-2">
         {/* SSR에서는 UI만 렌더, CSR에서만 onClick 등 동작 구현 */}
-        <button
+        <Button
           type="button"
           className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 focus:outline-none focus:ring"
           aria-label="편집"
         >
           편집
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 focus:outline-none focus:ring"
           aria-label="삭제"
         >
           삭제
-        </button>
+        </Button>
       </td>
     </tr>
   );
