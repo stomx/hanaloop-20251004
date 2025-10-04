@@ -43,6 +43,20 @@
   --color-sidebar-border: #e2e8f0;
   --color-sidebar-ring: #16a34a;
 
+  /* Carbon Management Color Palette */
+  --color-carbon-neutral: #6b7280;
+  --color-carbon-neutral-foreground: #ffffff;
+  --color-carbon-reduction: #22c55e;
+  --color-carbon-reduction-foreground: #ffffff;
+  --color-carbon-emission: #f97316;
+  --color-carbon-emission-foreground: #ffffff;
+  --color-carbon-offset: #84cc16;
+  --color-carbon-offset-foreground: #ffffff;
+  --color-forest-protection: #166534;
+  --color-forest-protection-foreground: #ffffff;
+  --color-ocean-protection: #0891b2;
+  --color-ocean-protection-foreground: #ffffff;
+
   /* Font families */
   --font-sans: Inter, SF Pro, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;
@@ -102,10 +116,65 @@
   --color-sidebar-accent-foreground: #f1f5f9;
   --color-sidebar-border: rgba(255, 255, 255, 0.1);
   --color-sidebar-ring: #22c55e;
+
+  /* Carbon Management Color Palette - Dark Mode */
+  --color-carbon-neutral: #9ca3af;
+  --color-carbon-neutral-foreground: #0f172a;
+  --color-carbon-reduction: #34d399;
+  --color-carbon-reduction-foreground: #0f172a;
+  --color-carbon-emission: #fb923c;
+  --color-carbon-emission-foreground: #0f172a;
+  --color-carbon-offset: #a3e635;
+  --color-carbon-offset-foreground: #0f172a;
+  --color-forest-protection: #22c55e;
+  --color-forest-protection-foreground: #0f172a;
+  --color-ocean-protection: #38bdf8;
+  --color-ocean-protection-foreground: #0f172a;
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground font-sans;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  *:focus {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .card {
+      border-width: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Ensure minimum touch target size */
+  button, [role="button"], a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Screen reader only text */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }

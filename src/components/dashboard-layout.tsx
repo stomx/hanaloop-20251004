@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -40,52 +40,52 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Logo/Brand */}
           <div
             className={cn(
-              'flex h-16 items-center border-b border-sidebar-border/50 px-3 bg-gradient-to-r from-primary/10 to-transparent',
+              'flex min-h-16 items-center border-b border-sidebar-border/50 px-3 bg-gradient-to-r from-primary/10 to-transparent',
               isCollapsed ? 'justify-center' : 'justify-between'
             )}
           >
-            {isCollapsed ? (
-              /* Collapsed state - only toggle button */
-              <button
-                type="button"
-                onClick={toggleSidebar}
-                className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors duration-200 flex-shrink-0 cursor-pointer"
-                aria-label="사이드바 펼치기"
-              >
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-            ) : (
-              <>
-                {/* Expanded state - logo and title */}
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 flex items-center justify-center">
-                    <Image
-                      src={logo}
-                      alt="HanaLoop Logo"
-                      width={40}
-                      height={40}
-                      className="object-contain filter drop-shadow-sm"
-                    />
-                  </div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                    HanaLoop
-                  </h1>
-                </div>
-                {/* Toggle Button */}
-                <button
-                  type="button"
-                  onClick={toggleSidebar}
-                  className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors duration-200 flex-shrink-0 cursor-pointer"
-                  aria-label="사이드바 접기"
-                >
-                  <ChevronLeft className="h-4 w-4 text-muted-foreground" />
-                </button>
-              </>
-            )}
+            {/* Logo and title - show/hide based on collapsed state */}
+            <div
+              className={cn(
+                'flex items-center gap-3 transition-all duration-300',
+                isCollapsed && 'hidden'
+              )}
+            >
+              <div className="w-10 h-10 flex items-center justify-center">
+                <Image
+                  src={logo}
+                  alt="HanaLoop Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain filter drop-shadow-sm"
+                />
+              </div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                HanaLoop
+              </h1>
+            </div>
+
+            {/* Single toggle button with rotating icon */}
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-primary/10 cursor-pointer group outline-none ring-0"
+              aria-label={isCollapsed ? '사이드바 펼치기' : '사이드바 접기'}
+            >
+              <ChevronLeft
+                className={cn(
+                  'h-4 w-4 text-muted-foreground group-hover:text-primary',
+                  isCollapsed && 'rotate-180'
+                )}
+              />
+            </button>
           </div>
 
           {/* Navigation Menu */}
-          <nav className="flex-1 space-y-1 px-3 py-4" aria-label="메인 내비게이션">
+          <nav
+            className="flex flex-col gap-y-0.5 h-full space-y-1 px-3 py-4"
+            aria-label="메인 내비게이션"
+          >
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               const Icon = item.icon;
@@ -94,10 +94,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'flex items-center rounded-xl text-sm font-medium transition-all duration-200 group relative cursor-pointer',
-                    isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3',
+                    'flex items-center rounded-xl text-sm font-medium transition-all duration-200 group relative cursor-pointer px-3 py-3',
                     isActive
-                      ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                      ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/25'
                       : 'text-sidebar-foreground/70 hover:bg-gradient-to-r hover:from-sidebar-accent hover:to-sidebar-accent/50 hover:text-sidebar-foreground hover:shadow-md hover:scale-[1.01]'
                   )}
                   aria-current={isActive ? 'page' : undefined}
@@ -109,7 +108,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                       isActive ? 'text-white' : 'text-muted-foreground'
                     )}
                   />
-                  {!isCollapsed && <span className="truncate">{item.name}</span>}
+                  <span
+                    className={cn(
+                      'truncate transition-all duration-300',
+                      isCollapsed ? 'opacity-0 invisible w-0 ml-0' : 'opacity-100 visible ml-3'
+                    )}
+                  >
+                    {item.name}
+                  </span>
                   {/* Tooltip for collapsed state */}
                   {isCollapsed && (
                     <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">

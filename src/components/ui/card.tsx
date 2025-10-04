@@ -2,14 +2,15 @@ import type * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+function Card({ className, ...props }: React.ComponentProps<'section'>) {
   return (
-    <div
+    <section
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
         className
       )}
+      tabIndex={props.onClick ? 0 : undefined}
       {...props}
     />
   );
