@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { DashboardLayout } from '@/components/dashboard-layout';
 
 // Pretendard 웹폰트 사용
 
 export const metadata: Metadata = {
-  title: '탄소 배출 대시보드',
+  title: '탄소 배출 대시보드 - HanaLoop',
   description: '기업의 탄소 배출량을 시각화하고 관리하는 대시보드',
 };
 
@@ -22,7 +23,9 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <DashboardLayout>{children}</DashboardLayout>
+      </body>
     </html>
   );
 }
