@@ -5,7 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "lefthook install",
+    "lint": "biome check --write .",
+    "lint:check": "biome check .",
+    "lint:md": "markdownlint '**/*.md' --fix",
+    "lint:md:check": "markdownlint '**/*.md'",
+    "format": "biome format --write .",
+    "format:check": "biome format ."
   },
   "packageManager": "pnpm@10.17.1",
   "dependencies": {
@@ -14,9 +21,14 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.2.5",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^24.6.2",
     "@types/react": "^18.3.25",
     "@types/react-dom": "^18.3.7",
+    "lefthook": "^1.13.6",
+    "markdownlint-cli": "^0.45.0",
     "typescript": "^5.9.3"
   }
 }

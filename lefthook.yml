@@ -1,0 +1,31 @@
+# Git hooks configuration for code quality
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    # Biome: Lint and format TypeScript/JavaScript files
+    biome:
+      glob: "*.{js,ts,jsx,tsx,json}"
+      run: pnpm biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+    # Markdownlint: Check Markdown files
+    markdown:
+      glob: "*.md"
+      run: pnpm markdownlint --fix {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    # Commitlint: Validate commit message format
+    commitlint:
+      run: pnpm commitlint --edit {1}
+
+# Optional: Run before push
+# pre-push:
+#   commands:
+#     type-check:
+#       run: pnpm tsc --noEmit
+#     build:
+#       run: pnpm build
