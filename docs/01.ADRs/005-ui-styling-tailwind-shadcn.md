@@ -1,8 +1,8 @@
-# ADR-005: UI 스타일링 및 컴포넌트 라이브러리 선택 (Tailwind CSS, shadcn/ui)
+# ADR-005: UI 스타일링 및 컴포넌트 라이브러리 선택 (Tailwind CSS v4, shadcn/ui)
 
 ## 상태 (Status)
 
-승인됨 (Accepted)
+구현됨 (Implemented)
 
 ## 맥락 (Context)
 
@@ -110,33 +110,50 @@ module.exports = {
 - App Router와 완벽 호환
 - Server Components에서 사용 가능
 
-**설정 예시:**
+**설정 예시 (Tailwind CSS v4):**
+
+Tailwind CSS v4에서는 JavaScript 기반 설정 파일 대신 CSS 기반 구성을 사용합니다:
 
 ```javascript
-// tailwind.config.js
-module.exports = {
-  darkMode: ['class'],
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        border: 'hsl(var(--border))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-    },
-  },
-  plugins: [],
+// postcss.config.mjs
+const config = {
+  plugins: ["@tailwindcss/postcss"],
 };
+
+export default config;
+```
+
+```css
+/* app/globals.css */
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
 ```
 
 ### 2. shadcn/ui (UI 컴포넌트)
@@ -269,41 +286,109 @@ src/
     └── utils.ts         # cn() 유틸리티
 ```
 
-**컬러 시스템 (탄소 배출 대시보드 테마):**
+**컬러 시스템 (HanaLoop 탄소 배출 대시보드 테마):**
 
 ```css
 /* app/globals.css */
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  /* HanaLoop Brand Color */
+  --primary: #0398ed;
+  --primary-foreground: #fafafa;
+  --secondary: #f9fafb;
+  --secondary-foreground: #374151;
+  --muted: #f9fafb;
+  --muted-foreground: #6b7280;
+  --accent: #f9fafb;
+  --accent-foreground: #374151;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  /* Success: Green */
+  --success: #22c55e;
+  --success-foreground: #fafafa;
+  /* Warning: Orange */
+  --warning: #f97316;
+  --warning-foreground: #1f2937;
+  /* Danger: Red (alias for destructive) */
+  --danger: #ef4444;
+  --danger-foreground: #fafafa;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #0398ed;
+  /* Chart colors - using HanaLoop brand and complementary colors */
+  --chart-1: #0398ed;
+  --chart-2: #8b5cf6;
+  --chart-3: #10b981;
+  --chart-4: #d946ef;
+  --chart-5: #84cc16;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #1f2937;
+  --sidebar-primary: #0398ed;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f9fafb;
+  --sidebar-accent-foreground: #374151;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #0398ed;
+}
+
+.dark {
+  --background: #1f2937;
+  --foreground: #fafafa;
+  --card: #374151;
+  --card-foreground: #fafafa;
+  --popover: #374151;
+  --popover-foreground: #fafafa;
+  /* HanaLoop Brand Color for dark mode */
+  --primary: #0ea5e9;
+  --primary-foreground: #1f2937;
+  --secondary: #4b5563;
+  --secondary-foreground: #fafafa;
+  --muted: #4b5563;
+  --muted-foreground: #9ca3af;
+  --accent: #4b5563;
+  --accent-foreground: #fafafa;
+  --destructive: #f87171;
+  --destructive-foreground: #1f2937;
+  /* Success: Green (darker for dark mode) */
+  --success: #16a34a;
+  --success-foreground: #1f2937;
+  /* Warning: Orange (darker for dark mode) */
+  --warning: #ea580c;
+  --warning-foreground: #1f2937;
+  /* Danger: Red (darker for dark mode) */
+  --danger: #f87171;
+  --danger-foreground: #1f2937;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #0ea5e9;
+  /* Chart colors for dark mode */
+  --chart-1: #0ea5e9;
+  --chart-2: #a78bfa;
+  --chart-3: #34d399;
+  --chart-4: #e879f9;
+  --chart-5: #a3e635;
+  --sidebar: #374151;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #0ea5e9;
+  --sidebar-primary-foreground: #1f2937;
+  --sidebar-accent: #4b5563;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #0ea5e9;
+}
+
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    
-    --primary: 221.2 83.2% 53.3%;     /* 파란색 - 신뢰감 */
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 142.1 76.2% 36.3%;   /* 녹색 - 친환경 */
-    --secondary-foreground: 355.7 100% 97.3%;
-    
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    
-    --accent: 142.1 76.2% 36.3%;      /* 강조색 */
-    --accent-foreground: 222.2 47.4% 11.2%;
-    
-    --destructive: 0 84.2% 60.2%;     /* 경고/삭제 */
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    
-    --radius: 0.5rem;
+  * {
+    @apply border-border outline-ring/50;
   }
-  
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    /* ... dark mode colors */
+  body {
+    @apply bg-background text-foreground;
   }
 }
 ```
@@ -447,8 +532,114 @@ export function PageHeader({ title, description }) {
 ## 관련 자료 (References)
 
 - [Tailwind CSS 공식 문서](https://tailwindcss.com/docs)
+- [Tailwind CSS v4 Beta 문서](https://tailwindcss.com/docs/v4-beta)
 - [shadcn/ui 공식 사이트](https://ui.shadcn.com/)
 - [Radix UI 문서](https://www.radix-ui.com/)
 - [Next.js + Tailwind 가이드](https://nextjs.org/docs/app/building-your-application/styling/tailwind-css)
 - [프로젝트 기술 요구사항](../00.requirements/04.technical-requirements.md)
 - [프로젝트 디자인 요구사항](../00.requirements/05.design-requirements.md)
+
+## 구현 내역 (Implementation)
+
+### 날짜
+
+2024-10-04
+
+### 설치된 패키지
+
+```json
+{
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.544.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "tailwindcss": "^4.1.14"
+  }
+}
+```
+
+### 구현된 구성
+
+#### 1. PostCSS 설정 (postcss.config.mjs)
+
+```javascript
+const config = {
+  plugins: ["@tailwindcss/postcss"],
+};
+
+export default config;
+```
+
+#### 2. Tailwind CSS v4 구성 (src/app/globals.css)
+
+- `@import "tailwindcss"` 사용
+- `@theme inline` 블록으로 CSS 변수를 Tailwind 테마로 매핑
+- `@custom-variant dark`로 다크 모드 정의
+- HanaLoop 브랜드 컬러 (#0398ed) 적용
+- 확장된 색상 팔레트 (success, warning, danger) 포함
+- 차트 컬러 5개 정의
+- Sidebar 컬러 시스템 포함
+
+#### 3. shadcn/ui 설정 (components.json)
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "registries": {}
+}
+```
+
+### Tailwind CSS v4의 주요 변경사항
+
+#### 이전 (v3)
+
+- JavaScript 기반 `tailwind.config.js` 필요
+- `@tailwind base`, `@tailwind components`, `@tailwind utilities` 디렉티브 사용
+- `autoprefixer`, `postcss` 별도 설치 필요
+
+#### 현재 (v4)
+
+- CSS 기반 `@import "tailwindcss"` 사용
+- `@theme inline` 블록으로 테마 정의
+- `@custom-variant`로 커스텀 변형 정의
+- `@tailwindcss/postcss` 플러그인 하나로 통합
+- Rust 기반 엔진으로 더 빠른 빌드 속도
+
+### 검증 결과
+
+✅ **빌드 성공**: `pnpm run build` 정상 실행
+✅ **린팅 통과**: `pnpm run lint:check` 문제 없음
+✅ **CSS 생성 확인**: `.next/static/css/` 에 CSS 파일 생성
+✅ **Tailwind 클래스 작동**: 모든 유틸리티 클래스 정상 적용
+✅ **색상 시스템 작동**: HanaLoop 브랜드 컬러 및 테마 색상 정상 작동
+✅ **다크 모드 지원**: `.dark` 클래스로 다크 모드 전환 가능
+
+### 장점
+
+1. **현대적인 구성 방식**: CSS 기반 구성으로 더 직관적
+2. **빠른 빌드 속도**: Rust 기반 엔진으로 성능 향상
+3. **간소화된 설정**: JavaScript 설정 파일 제거로 프로젝트 구조 간결
+4. **더 나은 타입 안전성**: CSS 변수를 통한 테마 관리
+5. **완전한 디자인 시스템**: HanaLoop 브랜드 아이덴티티 반영
