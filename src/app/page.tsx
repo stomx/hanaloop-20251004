@@ -1,4 +1,17 @@
-export default function Home() {
+import { fetchCompanies } from '@/lib/api';
+import {
+  formatNumber,
+  getEmissionsForMonth,
+  getLatestMonth,
+  getTotalEmissions,
+} from '@/lib/data-utils';
+
+export default async function Home() {
+  const companies = await fetchCompanies();
+  const totalEmissions = getTotalEmissions(companies);
+  const latestMonth = getLatestMonth(companies);
+  const latestMonthEmissions = latestMonth ? getEmissionsForMonth(companies, latestMonth) : 0;
+
   return (
     <main className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-4xl space-y-8">
@@ -12,18 +25,18 @@ export default function Home() {
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-lg border bg-card p-6 shadow-sm">
             <h3 className="mb-2 text-sm font-medium text-muted-foreground">총 배출량</h3>
-            <p className="text-3xl font-bold">1,234.5</p>
+            <p className="text-3xl font-bold">{formatNumber(totalEmissions)}</p>
             <p className="text-xs text-muted-foreground">tons CO2e</p>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
             <h3 className="mb-2 text-sm font-medium text-muted-foreground">등록 회사</h3>
-            <p className="text-3xl font-bold">12</p>
+            <p className="text-3xl font-bold">{companies.length}</p>
             <p className="text-xs text-muted-foreground">companies</p>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h3 className="mb-2 text-sm font-medium text-muted-foreground">최근 업데이트</h3>
-            <p className="text-3xl font-bold">2024-10</p>
-            <p className="text-xs text-muted-foreground">year-month</p>
+            <h3 className="mb-2 text-sm font-medium text-muted-foreground">최근 월 배출량</h3>
+            <p className="text-3xl font-bold">{formatNumber(latestMonthEmissions)}</p>
+            <p className="text-xs text-muted-foreground">{latestMonth || 'N/A'} (tons CO2e)</p>
           </div>
         </div>
 
@@ -39,7 +52,37 @@ export default function Home() {
             <li className="flex items-center gap-2">
               <span className="text-primary">✓</span> 디자인 시스템 준비 완료
             </li>
+            <li className="flex items-center gap-2">
+              <span className="text-primary">✓</span> 데이터 모델 및 타입 정의 완료
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-primary">✓</span> Fake Backend API 구현 완료
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-primary">✓</span> 시드 데이터 ({companies.length}개 회사) 준비
+              완료
+            </li>
           </ul>
+        </div>
+
+        <div className="rounded-lg border bg-card p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold">회사 목록</h2>
+          <div className="space-y-2">
+            {companies.slice(0, 5).map((company) => (
+              <div key={company.id} className="flex items-center justify-between border-b pb-2">
+                <div>
+                  <p className="font-medium">{company.name}</p>
+                  <p className="text-xs text-muted-foreground">{company.country}</p>
+                </div>
+                <p className="text-sm font-mono">{company.emissions.length} records</p>
+              </div>
+            ))}
+            {companies.length > 5 && (
+              <p className="pt-2 text-center text-sm text-muted-foreground">
+                ... and {companies.length - 5} more companies
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </main>
