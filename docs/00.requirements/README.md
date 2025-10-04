@@ -69,7 +69,7 @@ HanaLoop 프론트엔드 개발자 과제로, 기업의 탄소 배출량을 시�
 
 ### 📦 산출물 및 제약사항
 
-8. **[08.deliverables.md](./08.deliverables.md)** - 산출물
+1. [08.deliverables.md](./08.deliverables.md) - 산출물
    - 실행 가능한 Next.js 앱
    - README.md 작성 가이드
    - Git 저장소 요구사항
@@ -205,7 +205,7 @@ HanaLoop 프론트엔드 개발자 과제로, 기업의 탄소 배출량을 시�
 2. [02.timebox.md](./02.timebox.md)로 시간 계획 수립
 3. 코딩 시작!
 
-**행운을 빕니다! 🚀**
+### 행운을 빕니다! 🚀
 
 ---
 

@@ -1,0 +1,74 @@
+{
+  "cSpell.words": [
+    "apidevtools",
+    "asamuzakjp",
+    "asyncapi",
+    "Behance",
+    "biomejs",
+    "Chakra",
+    "clsx",
+    "commitlint",
+    "csstools",
+    "Dribbble",
+    "emnapi",
+    "esbuild",
+    "evilmartians",
+    "globex",
+    "hana",
+    "hanaloop",
+    "initech",
+    "Jakob",
+    "jiti",
+    "jridgewell",
+    "jsdom",
+    "jsep",
+    "lightningcss",
+    "loong",
+    "lucide",
+    "oklch",
+    "Pretendard",
+    "retryable",
+    "RGBA",
+    "riscv",
+    "Roboto",
+    "rollup",
+    "shadcn",
+    "shikijs",
+    "sonner",
+    "stomx",
+    "tanstack",
+    "Timebox",
+    "Toggl",
+    "turbopack",
+    "vercel",
+    "Visx",
+    "vitejs",
+    "vitest",
+    "Waka",
+    "WCAG",
+    "zustand"
+  ],
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}

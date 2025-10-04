@@ -2,7 +2,9 @@
 
 지원자님 안녕하세요!
 
-HanaLoop에 관심을 가져주셔서 감사합니다. HanaLoop는 지속적으로 성장하고 있는 스타트업입니다. 귀하께서 저희 회사에 관심을 가져주셨다는 것은 기후 변화의 영향에 대해 인지하고 계시다는 뜻이기도 합니다. HanaLoop는 조직들이 넷 제로(Net Zero) 여정을 갈 수 있도록 돕는 플랫폼을 구축하고 있습니다.
+HanaLoop에 관심을 가져주셔서 감사합니다. HanaLoop는 지속적으로 성장하고 있는 스타트업입니다.
+귀하께서 저희 회사에 관심을 가져주셨다는 것은 기후 변화의 영향에 대해 인지하고 계시다는 뜻이기도 합니다.
+HanaLoop는 조직들이 넷 제로(Net Zero) 여정을 갈 수 있도록 돕는 플랫폼을 구축하고 있습니다.
 
 저희는 지속적인 학습이 필요한 문제 해결에 열정을 가진 새로운 팀원을 찾고 있습니다.
 
@@ -12,7 +14,9 @@ HanaLoop에 관심을 가져주셔서 감사합니다. HanaLoop는 지속적으�
 
 ## **목적 (Purpose)**
 
-이 과제의 목적은 모범 사례를 적용하고, 제품/디자인에 대한 건전한 판단을 보여주는 소규모이지만 프로덕션을 염두에 둔 **웹 애플리케이션**을 설계하고 구축하는 귀하의 능력을 평가하는 것입니다. 저희는 단순한 기능 개수보다 신중한 트레이드오프를 중시합니다.
+이 과제의 목적은 모범 사례를 적용하고,
+제품/디자인에 대한 건전한 판단을 보여주는 소규모이지만 프로덕션을 염두에 둔 **웹 애플리케이션**을 설계하고 구축하는 귀하의 능력을 평가하는 것입니다.
+저희는 단순한 기능 개수보다 신중한 트레이드오프를 중시합니다.
 
 이것은 귀하께서 실력을 보여주실 수 있는 기회입니다!
 
@@ -72,7 +76,7 @@ HanaLoop에 관심을 가져주셔서 감사합니다. HanaLoop는 지속적으�
 
 ### **회사(월별 배출 포함) — Companies (with monthly emissions)**
 
-```
+```typescript
 type Company = {
   id: string;
   name: string;
@@ -83,7 +87,7 @@ type Company = {
 
 ### **배출(Emission)**
 
-```
+```typescript
 type GhgEmission = {
   yearMonth: string;  // "2025-01", "2025-02", "2025-03"
   source: string; // gasoline, lpg, diesel, etc
@@ -93,7 +97,7 @@ type GhgEmission = {
 
 ### **포스트(회사+월 연결) — Posts (linked to company + month)**
 
-```
+```typescript
 type Post = {
   id: string;
   title: string;
@@ -107,7 +111,7 @@ type Post = {
 
 ## **시드 데이터 예시 (Seed data example)**
 
-```
+```typescript
 type Post = {
   id: string;
   title: string;
@@ -117,7 +121,7 @@ type Post = {
 };
 ```
 
-```
+```typescript
 export const companies: Company[] = [
   {
     id: "c1",
@@ -150,7 +154,7 @@ export const posts: Post[] = [
 
 네트워크 I/O, 지연(200–800ms), 쓰기 작업의 가끔 있는 실패(10–20%)를 시뮬레이션하는 모듈(예: `lib/api.ts`)을 생성하세요.
 
-```
+```typescript
 // lib/api.ts
 let _countries = [...countries];
 let _companies = [...companies];
